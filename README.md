@@ -117,4 +117,3 @@ This extension respects your privacy:
 
 **Dhairya Agrawal**  
 Newton School Student & Developer
-# Newton-Portal-Hub
