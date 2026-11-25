@@ -1,0 +1,1155 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        --primary: #2563eb;
+        --primary-hover: #1d4ed8;
+        --primary-soft: #eff6ff;
+        --danger: #ef4444;
+        --danger-bg: #fef2f2;
+        --danger-border: #fecaca;
+        --danger-text: #dc2626;
+        --success: #10b981;
+        --success-bg: #ecfdf5;
+        --success-border: #a7f3d0;
+        --success-text: #15803d;
+        --warning: #f59e0b;
+        --bg: #f8fafc;
+        --card-bg: #ffffff;
+        --subtle-bg: #f1f5f9;
+        --tab-track: #e2e8f0;
+        --border: #e2e8f0;
+        --border-strong: #cbd5e1;
+        --text: #0f172a;
+        --text-secondary: #334155;
+        --text-muted: #64748b;
+        --shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      }
+
+      body[data-theme="dark"] {
+        --primary: #3b82f6;
+        --primary-hover: #2563eb;
+        --primary-soft: rgba(59, 130, 246, 0.12);
+        --danger: #f87171;
+        --danger-bg: rgba(239, 68, 68, 0.1);
+        --danger-border: rgba(239, 68, 68, 0.25);
+        --danger-text: #fca5a5;
+        --success: #34d399;
+        --success-bg: rgba(16, 185, 129, 0.1);
+        --success-border: rgba(16, 185, 129, 0.25);
+        --success-text: #6ee7b7;
+        --warning: #fbbf24;
+        --bg: #0b0f19;
+        --card-bg: #151b28;
+        --subtle-bg: #1c2436;
+        --tab-track: #151b28;
+        --border: rgba(255, 255, 255, 0.08);
+        --border-strong: rgba(255, 255, 255, 0.16);
+        --text: #f8fafc;
+        --text-secondary: #94a3b8;
+        --text-muted: #64748b;
+        --shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        height: 100%;
+      }
+
+      body {
+        width: 460px;
+        height: 600px;
+        min-height: 600px;
+        max-height: 600px;
+        margin: 0;
+        box-sizing: border-box;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        padding: 13px 15px 11px;
+        font-size: 13.5px;
+        line-height: 1.4;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        transition:
+          background 0.15s ease,
+          color 0.15s ease;
+      }
+
+      /* Responsive expansion in Side Panel */
+      @media (min-height: 620px) {
+        body {
+          height: 100vh;
+          min-height: 100vh;
+          max-height: 100vh;
+        }
+      }
+      @media (min-width: 461px) {
+        body {
+          width: 100%;
+          max-width: 100%;
+        }
+      }
+
+      /* Clean Minimal Header */
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 9px;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+      }
+      .brand-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
+      }
+      .brand-icon svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      .brand-title {
+        font-size: 14.5px;
+        font-weight: 700;
+        color: var(--text);
+        letter-spacing: -0.01em;
+      }
+      .brand-subtitle {
+        font-size: 11px;
+        color: var(--text-muted);
+        font-weight: 500;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        flex-shrink: 0;
+      }
+
+      .icon-btn,
+      .sync-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        padding: 4.5px 8px;
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        color: var(--text-secondary);
+        font-size: 11.5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .icon-btn:hover,
+      .sync-btn:hover {
+        background: var(--subtle-bg);
+        border-color: var(--border-strong);
+        color: var(--text);
+      }
+      .sync-icon {
+        display: inline-block;
+      }
+      .spinning {
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Unified Metrics Strip */
+      .metrics-bar {
+        display: flex;
+        align-items: center;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 9px;
+        padding: 7px 5px;
+        margin-bottom: 8px;
+        box-shadow: var(--shadow);
+        flex-shrink: 0;
+      }
+      .metric-card {
+        flex: 1;
+        text-align: center;
+        padding: 2px 4px;
+      }
+      .metric-card:not(:last-child) {
+        border-right: 1px solid var(--border);
+      }
+      .metric-val {
+        font-size: 16px;
+        font-weight: 800;
+        line-height: 1.15;
+      }
+      .metric-val.danger {
+        color: var(--danger-text);
+      }
+      .metric-val.success {
+        color: var(--success-text);
+      }
+      .metric-val.primary {
+        color: var(--primary);
+      }
+      .metric-val.neutral {
+        color: var(--text);
+      }
+      .metric-label {
+        font-size: 10.5px;
+        color: var(--text-muted);
+        font-weight: 600;
+        margin-top: 2px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      /* Minimal Segmented Tabs */
+      .tabs-nav {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        background: var(--subtle-bg);
+        padding: 3px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        gap: 3px;
+        flex-shrink: 0;
+      }
+      .tab-btn {
+        padding: 6px 3px;
+        background: transparent;
+        border: none;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-muted);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        transition: all 0.15s ease;
+        white-space: nowrap;
+      }
+      .tab-btn.active {
+        background: var(--card-bg);
+        color: var(--text);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+      }
+      .tab-badge {
+        font-size: 10px;
+        padding: 0 5px;
+        border-radius: 10px;
+        font-weight: 700;
+        line-height: 15px;
+      }
+      .tab-badge.danger {
+        background: var(--danger-bg);
+        color: var(--danger-text);
+      }
+      .tab-badge.neutral {
+        background: var(--subtle-bg);
+        color: var(--text-muted);
+      }
+
+      /* Viewport */
+      .tabs-viewport {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        margin-bottom: 4px;
+        padding-right: 2px;
+      }
+      .tabs-viewport::-webkit-scrollbar {
+        width: 4px;
+      }
+      .tabs-viewport::-webkit-scrollbar-thumb {
+        background: var(--border-strong);
+        border-radius: 4px;
+      }
+
+      .tab-content {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .subject-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      /* Clean Minimal Subject Cards */
+      .danger-card,
+      .subject-row-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 9px;
+        padding: 9px 12px;
+        box-shadow: var(--shadow);
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        transition: border-color 0.15s ease;
+      }
+      .danger-card {
+        border-left: 3px solid var(--danger);
+      }
+      .card-head-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+      }
+      .card-subj-name {
+        font-weight: 700;
+        color: var(--text);
+        font-size: 13.5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        flex: 1;
+      }
+      .pct-pill {
+        font-size: 12px;
+        font-weight: 800;
+        padding: 2px 7px;
+        border-radius: 5px;
+        flex-shrink: 0;
+      }
+      .pct-pill.danger {
+        background: var(--danger-bg);
+        color: var(--danger-text);
+      }
+      .pct-pill.success {
+        background: var(--success-bg);
+        color: var(--success-text);
+      }
+      .pct-pill.amber {
+        background: rgba(245, 158, 11, 0.12);
+        color: var(--warning);
+      }
+
+      /* Progress Bar */
+      .progress-track {
+        position: relative;
+        height: 5px;
+        background: var(--subtle-bg);
+        border-radius: 3px;
+        overflow: visible;
+        margin: 2px 0;
+      }
+      .progress-fill {
+        height: 100%;
+        border-radius: 3px;
+        transition: width 0.25s ease;
+      }
+      .progress-fill.red {
+        background: #ef4444;
+      }
+      .progress-fill.amber {
+        background: #f59e0b;
+      }
+      .progress-fill.green {
+        background: #10b981;
+      }
+      .progress-fill.blue {
+        background: var(--primary);
+      }
+      .target-marker {
+        position: absolute;
+        top: -2px;
+        bottom: -2px;
+        width: 2px;
+        background: var(--text-muted);
+        border-radius: 1px;
+      }
+
+      /* Card Bottom Meta & What-if */
+      .card-bottom-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 11.5px;
+        color: var(--text-muted);
+        gap: 6px;
+      }
+      .card-meta-left {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .count-text {
+        font-weight: 500;
+      }
+      .sep-dot {
+        opacity: 0.5;
+        font-size: 10px;
+      }
+      .status-badge {
+        font-weight: 700;
+        font-size: 11px;
+        padding: 1.5px 6px;
+        border-radius: 4px;
+      }
+      .status-badge.danger {
+        background: var(--danger-bg);
+        color: var(--danger-text);
+      }
+      .status-badge.safe {
+        background: var(--success-bg);
+        color: var(--success-text);
+      }
+      .bunk-status {
+        font-weight: 600;
+        font-size: 11.5px;
+      }
+      .bunk-status.danger {
+        color: var(--danger-text);
+      }
+      .bunk-status.success {
+        color: var(--success-text);
+      }
+
+      .sim-controls {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        flex-shrink: 0;
+      }
+      .sim-btn {
+        background: var(--subtle-bg);
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+        border-radius: 4px;
+        padding: 2.5px 7px;
+        font-size: 11px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .sim-btn:hover {
+        background: var(--card-bg);
+        border-color: var(--primary);
+        color: var(--primary);
+      }
+      .sim-btn.reset {
+        color: var(--text-muted);
+        padding: 2.5px 5px;
+      }
+
+      .safe-state-card {
+        background: var(--success-bg);
+        border: 1px solid var(--success-border);
+        border-radius: 9px;
+        padding: 16px;
+        text-align: center;
+        color: var(--success-text);
+      }
+      .safe-icon {
+        font-size: 22px;
+        margin-bottom: 4px;
+      }
+      .safe-title {
+        font-weight: 700;
+        font-size: 13.5px;
+        margin-bottom: 3px;
+      }
+      .safe-desc {
+        font-size: 11.5px;
+        opacity: 0.9;
+      }
+
+
+
+      /* To-Do / Tasks Modern UI */
+      .task-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 9px;
+        padding: 9px 11px;
+        box-shadow: var(--shadow);
+        margin-bottom: 9px;
+      }
+      .task-input-wrapper {
+        display: flex;
+        gap: 7px;
+      }
+      .task-text-input {
+        flex: 1;
+        border: 1px solid var(--border);
+        background: var(--bg);
+        color: var(--text);
+        border-radius: 6px;
+        padding: 6px 10px;
+        font-size: 12.5px;
+        outline: none;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      }
+      .task-text-input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px var(--primary-soft);
+      }
+      .task-text-input::placeholder {
+        color: var(--text-muted);
+        opacity: 0.75;
+      }
+      .task-add-btn {
+        background: var(--primary);
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+        padding: 0 13px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.15s ease, transform 0.1s ease;
+      }
+      .task-add-btn:hover {
+        background: var(--primary-hover);
+      }
+      .task-add-btn:active {
+        transform: scale(0.97);
+      }
+      .task-meta-bar {
+        display: flex;
+        gap: 7px;
+        margin-top: 7px;
+      }
+      .task-select-pill {
+        flex: 1;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+        font-size: 11px;
+        font-weight: 500;
+        border-radius: 6px;
+        padding: 4px 22px 4px 8px;
+        outline: none;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 7px center;
+        transition: border-color 0.15s ease, color 0.15s ease;
+      }
+      .task-select-pill:focus,
+      .task-select-pill:hover {
+        border-color: var(--border-strong);
+        color: var(--text);
+      }
+      .task-priority-select {
+        flex: none;
+        width: 95px;
+      }
+
+      /* Unified Task Toolbar */
+      .task-toolbar-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 0 5px;
+      }
+      .filter-chips {
+        display: inline-flex;
+        gap: 2px;
+        background: var(--subtle-bg);
+        padding: 2px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+      }
+      .filter-chip {
+        background: transparent;
+        border: none;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 3px 9px;
+        border-radius: 4px;
+        transition: all 0.15s ease;
+      }
+      .filter-chip:hover {
+        color: var(--text);
+      }
+      .filter-chip.active {
+        background: var(--card-bg);
+        color: var(--text);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+      }
+      .task-toolbar-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .task-progress-text {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-muted);
+      }
+      .link-btn {
+        background: none;
+        border: none;
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: color 0.15s ease;
+      }
+      .link-btn:hover {
+        color: var(--danger-text);
+      }
+
+      /* Modern Progress Bar */
+      .task-progress-track {
+        width: 100%;
+        height: 5px;
+        background: var(--subtle-bg);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        overflow: hidden;
+        margin: 6px 0 10px;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+      }
+      .task-progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary), #60a5fa);
+        border-radius: 999px;
+        transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      /* Tasks List & Custom Checkbox */
+      .tasks-scroll-container {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .task-item-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 9px;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 8px 10px;
+        box-shadow: var(--shadow);
+        transition: border-color 0.15s ease, background 0.15s ease;
+      }
+      .task-item-card:hover {
+        border-color: var(--border-strong);
+      }
+      .task-item-card.done {
+        opacity: 0.55;
+      }
+      .task-item-card.done .task-title-text {
+        text-decoration: line-through;
+        color: var(--text-muted);
+      }
+      .custom-checkbox-wrap {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        margin-top: 1px;
+        flex-shrink: 0;
+      }
+      .task-check-hidden {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+        pointer-events: none;
+        margin: 0;
+      }
+      .custom-checkbox-box {
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+        border: 1.5px solid var(--border-strong);
+        background: var(--subtle-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.15s ease;
+        color: #ffffff;
+      }
+      .custom-checkbox-wrap:hover .custom-checkbox-box {
+        border-color: var(--primary);
+        background: var(--card-bg);
+      }
+      .task-check-hidden:checked + .custom-checkbox-box {
+        background: var(--primary);
+        border-color: var(--primary);
+      }
+      .check-icon {
+        width: 10px;
+        height: 10px;
+        opacity: 0;
+        transform: scale(0.6);
+        transition: all 0.15s ease;
+      }
+      .task-check-hidden:checked + .custom-checkbox-box .check-icon {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .task-body-content {
+        flex: 1;
+        min-width: 0;
+      }
+      .task-title-text {
+        font-size: 12.5px;
+        font-weight: 500;
+        color: var(--text);
+        line-height: 1.4;
+        word-break: break-word;
+      }
+      .task-meta-tags {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        margin-top: 3px;
+      }
+      .task-tag {
+        font-size: 10px;
+        font-weight: 500;
+        padding: 1px 6px;
+        border-radius: 4px;
+        background: var(--subtle-bg);
+        color: var(--text-secondary);
+        border: 1px solid var(--border);
+      }
+      .task-tag.priority-high {
+        background: var(--danger-bg);
+        color: var(--danger-text);
+        border-color: var(--danger-border);
+        font-weight: 600;
+      }
+      .task-delete-icon-btn {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 2px 4px;
+        border-radius: 4px;
+        opacity: 0.45;
+        transition: all 0.15s ease;
+        flex-shrink: 0;
+        margin-top: 1px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .task-delete-icon-btn:hover {
+        opacity: 1;
+        color: var(--danger-text);
+        background: var(--danger-bg);
+      }
+      .empty-tasks-card {
+        background: var(--card-bg);
+        border: 1px dashed var(--border-strong);
+        border-radius: 8px;
+        padding: 22px 14px;
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 11.5px;
+        line-height: 1.4;
+        margin-top: 4px;
+      }
+      .empty-icon {
+        font-size: 20px;
+        margin-bottom: 4px;
+        opacity: 0.8;
+      }
+      .empty-title {
+        font-weight: 600;
+        font-size: 12.5px;
+        color: var(--text);
+        margin-bottom: 2px;
+      }
+
+      /* Compact Goal Box */
+      .goal-box {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 9px;
+        padding: 9px 12px;
+        margin-top: 10px;
+        margin-bottom: 6px;
+        box-shadow: var(--shadow);
+      }
+      .goal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+      }
+      .goal-title {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .goal-curr {
+        font-size: 12.5px;
+        font-weight: 700;
+        color: var(--primary);
+      }
+      .goal-controls-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 7px;
+      }
+      .presets-row {
+        display: flex;
+        gap: 4px;
+      }
+      .preset-chip {
+        padding: 3.5px 8.5px;
+        border-radius: 5px;
+        background: var(--subtle-bg);
+        border: 1px solid var(--border);
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .preset-chip.active {
+        background: var(--primary);
+        color: #ffffff;
+        border-color: var(--primary);
+      }
+      .custom-input-group {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .custom-input-group input {
+        width: 55px;
+        padding: 3px 6px;
+        font-size: 11.5px;
+        border-radius: 5px;
+        border: 1px solid var(--border);
+        background: var(--card-bg);
+        color: var(--text);
+        outline: none;
+      }
+      .save-btn {
+        padding: 3px 9px;
+        font-size: 11.5px;
+        font-weight: 700;
+        border-radius: 5px;
+        background: var(--primary);
+        color: #ffffff;
+        border: none;
+        cursor: pointer;
+      }
+
+      /* Footer */
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 10.5px;
+        color: var(--text-muted);
+        padding-top: 6px;
+        border-top: 1px solid var(--border);
+        flex-shrink: 0;
+      }
+      .status-indicator {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .pulse-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #10b981;
+      }
+      .pulse-dot.offline {
+        background: #94a3b8;
+      }
+      .footer-author {
+        font-size: 10px;
+        font-weight: 400;
+        color: var(--text-muted);
+        letter-spacing: 0.01em;
+        opacity: 0.85;
+      }
+      .empty-box {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 16px;
+        text-align: center;
+        font-size: 11.5px;
+        color: var(--text-muted);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Clean Header -->
+    <div class="header">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 128 128" aria-label="Newton Portal Hub">
+            <defs>
+              <linearGradient id="brand-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#3b82f6" />
+                <stop offset="100%" stop-color="#1d4ed8" />
+              </linearGradient>
+            </defs>
+            <rect width="128" height="128" fill="url(#brand-bg)" />
+            <path
+              d="M34 84 V36 L86 84 V36"
+              stroke="#ffffff"
+              stroke-width="12"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              fill="none"
+            />
+            <circle
+              cx="98"
+              cy="98"
+              r="18"
+              fill="#10b981"
+              stroke="#ffffff"
+              stroke-width="4"
+            />
+            <path
+              d="M90 98 L96 104 L107 91"
+              stroke="#ffffff"
+              stroke-width="4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              fill="none"
+            />
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">Newton Portal Hub</div>
+          <div class="brand-subtitle">Attendance & Schedule</div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button
+          id="themeBtn"
+          class="icon-btn"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+        >
+          🌙
+        </button>
+        <button
+          id="sidePanelBtn"
+          class="icon-btn"
+          title="Open in side panel"
+          aria-label="Open side panel"
+        >
+          📌
+        </button>
+        <button
+          id="syncBtn"
+          class="sync-btn"
+          title="Sync latest attendance from portal"
+        >
+          <span id="syncIcon" class="sync-icon">🔄</span>
+          <span>Sync</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Unified Minimal Metrics Strip -->
+    <div class="metrics-bar">
+      <div class="metric-card">
+        <div id="metricOverall" class="metric-val primary">-</div>
+        <div class="metric-label">Overall</div>
+      </div>
+      <div class="metric-card">
+        <div id="metricDanger" class="metric-val danger">-</div>
+        <div class="metric-label">Below 75%</div>
+      </div>
+      <div class="metric-card">
+        <div id="metricSafe" class="metric-val success">-</div>
+        <div class="metric-label">Safe</div>
+      </div>
+    </div>
+
+    <!-- Minimal Segmented Tab Nav -->
+    <div class="tabs-nav">
+      <button id="tabAlertsBtn" class="tab-btn active" data-tab="alerts">
+        <span>Risk</span>
+        <span id="alertsCountBadge" class="tab-badge danger">0</span>
+      </button>
+      <button id="tabAllBtn" class="tab-btn" data-tab="all">
+        <span>All</span>
+        <span id="allCountBadge" class="tab-badge neutral">0</span>
+      </button>
+      <button id="tabTasksBtn" class="tab-btn" data-tab="tasks">
+        <span>Tasks</span>
+        <span id="tasksCountBadge" class="tab-badge neutral">0</span>
+      </button>
+    </div>
+
+    <!-- Main Viewport -->
+    <div class="tabs-viewport">
+      <!-- Tab 1: Risk -->
+      <div id="tabAlertsContent" class="tab-content">
+        <div id="alertsContainer" class="subject-list">
+          <div class="empty-box">Checking portal data...</div>
+        </div>
+      </div>
+
+      <!-- Tab 2: All Subjects -->
+      <div id="tabAllContent" class="tab-content" style="display: none">
+        <div id="allSubjectsContainer" class="subject-list"></div>
+      </div>
+
+      <!-- Tab 3: Tasks -->
+      <div id="tabTasksContent" class="tab-content" style="display: none">
+        <div class="task-card">
+          <form id="taskForm" class="task-form">
+            <div class="task-input-wrapper">
+              <input
+                id="taskInput"
+                class="task-text-input"
+                type="text"
+                placeholder="Add a study task or assignment..."
+                maxlength="140"
+                required
+              />
+              <button type="submit" class="task-add-btn">
+                <span>+ Add</span>
+              </button>
+            </div>
+            <div class="task-meta-bar">
+              <select id="taskSubjectSelect" class="task-select-pill">
+                <option value="general">General</option>
+              </select>
+              <select
+                id="taskPrioritySelect"
+                class="task-select-pill task-priority-select"
+              >
+                <option value="normal">Normal</option>
+                <option value="high">🔥 High</option>
+              </select>
+            </div>
+          </form>
+        </div>
+
+        <!-- Sleek Unified Task Toolbar & Progress -->
+        <div class="task-toolbar-row">
+          <div class="filter-chips">
+            <button type="button" class="filter-chip active" data-filter="all">
+              All
+            </button>
+            <button type="button" class="filter-chip" data-filter="done">
+              Done
+            </button>
+          </div>
+          <div class="task-toolbar-meta">
+            <span id="taskProgressLabel" class="task-progress-text">0 / 0 done</span>
+            <button type="button" id="clearDoneBtn" class="link-btn">
+              Clear done
+            </button>
+          </div>
+        </div>
+
+        <div class="task-progress-track">
+          <div
+            id="taskProgressFill"
+            class="task-progress-fill"
+            style="width: 0%"
+          ></div>
+        </div>
+
+        <div id="tasksContainer" class="tasks-scroll-container"></div>
+      </div>
+
+      <!-- Compact Target Goal Box (shown on Attendance tabs) -->
+      <div id="goalBox" class="goal-box">
+        <div class="goal-header">
+          <span class="goal-title">Website Portal Target</span>
+          <span id="currentGoalLabel" class="goal-curr">85%</span>
+        </div>
+        <div class="goal-controls-row">
+          <div class="presets-row">
+            <button class="preset-chip goal-chip" data-val="75">75%</button>
+            <button class="preset-chip goal-chip" data-val="80">80%</button>
+            <button class="preset-chip goal-chip active" data-val="85">
+              85%
+            </button>
+            <button class="preset-chip goal-chip" data-val="90">90%</button>
+          </div>
+          <div class="custom-input-group">
+            <input
+              type="number"
+              id="targetInput"
+              min="1"
+              max="100"
+              value="85"
+              placeholder="%"
+            />
+            <button id="saveBtn" class="save-btn">Set</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Minimal Footer -->
+    <div class="footer">
+      <div class="status-indicator">
+        <span id="pulseDot" class="pulse-dot"></span>
+        <span id="statusText">Active</span>
+      </div>
+      <div class="footer-author">Made by Dhairya Agrawal</div>
+      <div id="syncTime">Not synced</div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
