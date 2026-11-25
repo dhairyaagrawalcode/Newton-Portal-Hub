@@ -47,7 +47,7 @@
 
 1. **Clone or Download** this repository to your computer:
    ```bash
-   git clone https://github.com/your-username/newton-portal-hub.git
+   git clone https://github.com/dhairyaagrawalcode/Newton-Portal-Hub
    ```
    *(Or download and extract the ZIP file).*
 
